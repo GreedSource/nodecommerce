@@ -5,10 +5,11 @@
         Añadir de producto
     </div>
     <div class="card-body">
-        <form id="form" onsubmit="dataEntry(event, this)" enctype="multipart/form-data">
+        <form id="form" onsubmit="updateRecord(event, this)" enctype="multipart/form-data">
+            <input type="hidden" name="key" value="<%= product.id %>">
             <div class="form-group">
               <label for="title">Titulo</label>
-              <input type="text" class="form-control" id="title" name="title" placeholder="Ingresa el titulo" value="<%= product.title %> required">
+              <input type="text" class="form-control" id="title" name="title" placeholder="Ingresa el titulo" value="<%= product.title %>" required>
             </div>
             <div class="form-group">
               <label for="description">Descripción</label>
@@ -35,11 +36,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="thumbnail">Imagen</label>
-                        <input type="file" name="thumbnail" id="thumbnail" class="form-control-file" accept="image/*" required>
+                        <input type="file" name="thumbnail" id="thumbnail" class="form-control-file" accept="image/*">
+                        <img src="/storage/<%= product.thumbnail %>" width="200px" height="200px" alt="Loading...">
+                        <input type="hidden" name="_thumbnail" value="<%= product.thumbnail %>">
                     </div>
                     <div class="col-md-6">
                         <label for="filename">Archivo</label>
-                        <input type="file" class="form-control-file" id="filename" name="filename" required accept=".pdf, .zip">
+                        <input type="file" class="form-control-file" id="filename" name="filename" accept=".pdf, .zip" style="padding-bottom: 10px;">
+                        <input type="hidden" name="_filename" value="<%= product.filename %>">
+                        <a href="/storage/<%= product.filename %>" target="_blank" class="btn btn-success">Ver archivo</a>
                     </div>
                 </div>
             </div>

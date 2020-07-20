@@ -30,7 +30,7 @@ const upload = multer({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    db.query('SELECT * FROM products', (err, results) => {
+    db.query('SELECT * FROM products WHERE active = 1', (err, results) => {
         res.render('products/index', { title : 'Productos', products:results });
     });
 });
@@ -57,7 +57,7 @@ router.post('/add', (req, res, next) => {
       var sql = 'INSERT INTO products SET ?';
       db.query(sql, data, (err, results)=>{
         if (!err){
-          res.json(1);
+          res.json(results.insertId);
         }
       }); 
     }else{
@@ -80,93 +80,46 @@ router.post('/edit', (req, res, next) => {
     }
   });
 });
-/* 
-router.post('/edit/:id', (req, res, next) => {
+ 
+router.put('/edit', (req, res, next) => {
   upload(req, res, (err) => {
-    if(err){
-      res.redirect('/edit/' + req.params.id)
-    }else{
-      if (req.file === undefined){
-        var change = {
-          nombre: req.body.nombre,
-          apellido: req.body.apellido,
-          sexo: req.body.sexo,
-          imagen : req.body.src
+    if(!err){
+      var foto = req.files['thumbnail'] ? res.req.files['thumbnail'][0].filename : req.body._thumbnail;
+      console.log(foto);
+      var filename = req.files['filename'] ? res.req.files['filename'][0].filename : req.body._filename;
+      var data = {
+        title:        req.body.title,
+        description:  req.body.description,
+        price:        req.body.price,
+        stock:        req.body.stock,
+        thumbnail:    foto,
+        filename:     filename,
+        author:       req.body.author,
+        technology:   req.body.technology
+      };
+      var sql = 'UPDATE products SET ? WHERE id= '+ req.body.key;
+      db.query(sql, data, (err, results)=>{
+        if (!err){
+          res.json(1);
         }
-        var sql = 'UPDATE test SET ? WHERE id='+ req.params.id;
-         db.query(sql, change, (err, results)=>{
-           if (err) throw err;
-           res.send('<a href="/">Registro actualizado, regresar a inicio</a>');
-         });
-       }else{
-         console.log('hello world');
-         res.render('edit', {
-           msg: 'File uploaded!',
-           //file: `uploads/${req.file.filename}`,
-           title: 'Edit'
-         });
-         //var foto = req.file.originalname;
-         var foto = res.req.file.filename;
-         var valor = {
-           nombre : req.body.nombre,
-           apellido : req.body.apellido,
-           imagen : foto,
-           sexo : req.body.sexo,
-         }
-         var sql = 'UPDATE products SET ? WHERE id='+ req.params.id;
-         db.query(sql, valor, (err, results)=>{
-           if (err) throw err;
-           res.send('<a href="/">Registro actualizado, regresar a inicio</a>');
-         });
-      }
+      });
     }
-  });
-});
- */
-router.delete('/delete/:id', (req, res, next) => {
-  db.query('DELETE FROM products WHERE id = ?', [req.params.id], (err, results) => {
-    if (!err){
-      res.send(true);
-    }
-    console.log(results);
   });
 });
 
-router.post('/upload', (req, res, next) => {
-  upload(req, res, (err) => {
-    if(err){
-      res.redirect('/crud')
-    }else{
-      if (req.file === undefined){
-        res.render('crud', {
-          msg: 'Error: no file selected!!',
-          title: 'Post'
-        });
-        //console.log(err);
-        console.log(req.body);
-      }else{
-        //console.log('hello world');
-        res.render('crud', {
-          msg: 'File uploaded!',
-          //file: `uploads/${req.file.filename}`,
-          title: 'Post'
-        });
-        //var foto = req.file.originalname;
-        var foto = res.req.file.filename;
-        console.log(foto);
-        var valor = {
-          nombre : req.body.nombre,
-          apellido : req.body.apellido,
-          imagen : foto,
-          sexo : req.body.sexo,
+router.put('/delete', (req, res, next) => {
+  upload(req, res, (err)=> {
+    if (!err){
+      var sql = 'UPDATE products SET active = 0 WHERE id = ' + req.body.key;
+      db.query(sql, (err, results)=>{
+        if (!err){
+          res.send(true);
+        }else{
+          res.send(err);
         }
-        var sql = 'INSERT INTO products SET ?';
-        db.query(sql, valor, (err, results)=>{
-          if (err) throw err;
-        }); 
-      }
+      });
     }
-  });
-})
+  })
+});
 
 module.exports = router;
