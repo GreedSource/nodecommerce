@@ -7,7 +7,7 @@ if (port === 4205){
         port:3306,
         user:'root',
         password: '',
-        database:'node_test',
+        database:'nodecommerce',
         insecureAuth: true
     });
 }else{

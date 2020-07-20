@@ -1,0 +1,52 @@
+<% include ../layouts/header %> 
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Añadir de producto
+    </div>
+    <div class="card-body">
+        <form id="form" onsubmit="dataEntry(event, this)" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="title">Titulo</label>
+              <input type="text" class="form-control" id="title" name="title" placeholder="Ingresa el titulo" value="<%= product.title %> required">
+            </div>
+            <div class="form-group">
+              <label for="description">Descripción</label>
+              <textarea name="description" id="description" cols="30" rows="3" class="form-control" required><%= product.description %></textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Precio</label>
+                <input type="text" class="form-control" id="price" name="price" placeholder="Ingresa el precio" value="<%= product.price %>" required>
+            </div>
+            <div class="form-group">
+                <label for="stock">Cantidad</label>
+                <input type="text" class="form-control" id="stock" name="stock" placeholder="Ingresa la cantidad disponible" value="<%= product.stock %>" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Autor</label>
+                <input type="text" class="form-control" id="author" name="author" placeholder="Ingresa el nombre del autor" value="<%= product.author %>" required>
+            </div>
+            <div class="form-group">
+                <label for="technology">Tecnología</label>
+                <input type="text" class="form-control" id="technology" name="technology" placeholder="Ingresa la tecnología" value="<%= product.technology %>" required>
+            </div>
+            
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="thumbnail">Imagen</label>
+                        <input type="file" name="thumbnail" id="thumbnail" class="form-control-file" accept="image/*" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="filename">Archivo</label>
+                        <input type="file" class="form-control-file" id="filename" name="filename" required accept=".pdf, .zip">
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary form-control">Agregar producto</button>
+          </form>
+    </div>
+</div>
+
+<% include ../layouts/footer %>

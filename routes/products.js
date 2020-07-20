@@ -1,7 +1,7 @@
 var express = require('express');
 var router  = express.Router();
 var multer      = require('multer');
-var db          = require('../connection');
+var db          = require('../models/connection');
 var path        = require('path');
 var crypto      = require('crypto');
 
@@ -17,26 +17,61 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage : storage,
-}).single('img');
+}).fields([
+  {
+    name: 'thumbnail',
+    maxCount: 1
+  },
+  {
+    name: 'filename',
+    maxCount: 1
+  }
+]);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     db.query('SELECT * FROM products', (err, results) => {
-        res.render('index', {title : 'Productos', products:results});
-        //console.log(results);
+        res.render('products/index', { title : 'Productos', products:results });
     });
 });
 
 router.get('/add', (req, res, next) => {
-  res.render('crud', {title : 'Productos', msg : null});
+  res.render('products/crud', { title : 'Productos' });
 });
 
-router.get('/edit/:id', (req, res, next) => {
-  db.query('SELECT * FROM products WHERE id = ?', [req.params.id], (err, results) => {
+router.post('/add', (req, res, next) => {
+  upload(req, res, (err) => {
+    if (!err){
+      var foto = res.req.files['thumbnail'][0].filename;
+      var filename = res.req.files['filename'][0].filename;
+      var data = {
+        title:        req.body.title,
+        description:  req.body.description,
+        price:        req.body.price,
+        stock:        req.body.stock,
+        thumbnail:    foto,
+        filename:     filename,
+        author:       req.body.author,
+        technology:   req.body.technology
+      };
+      var sql = 'INSERT INTO products SET ?';
+      db.query(sql, data, (err, results)=>{
+        if (!err){
+          res.json(1);
+        }
+      }); 
+    }else{
+      res.send(err);
+    }
+  });
+});
+
+router.post('/edit', (req, res, next) => {
+  db.query('SELECT * FROM products WHERE id = ?', [req.body.key], (err, results) => {
     if(!err){
       console.log();
       if (Object.keys(results).length !== 0){
-        res.render('edit', {title : 'Productos', product:results[0], msg : null});
+        res.render('products/edit', {title : 'Productos', product:results[0], msg : null});
       }else{
         res.redirect('/');
       }
@@ -45,7 +80,7 @@ router.get('/edit/:id', (req, res, next) => {
     }
   });
 });
-
+/* 
 router.post('/edit/:id', (req, res, next) => {
   upload(req, res, (err) => {
     if(err){
@@ -65,11 +100,11 @@ router.post('/edit/:id', (req, res, next) => {
          });
        }else{
          console.log('hello world');
-         /* res.render('edit', {
+         res.render('edit', {
            msg: 'File uploaded!',
            //file: `uploads/${req.file.filename}`,
            title: 'Edit'
-         }); */
+         });
          //var foto = req.file.originalname;
          var foto = res.req.file.filename;
          var valor = {
@@ -87,7 +122,7 @@ router.post('/edit/:id', (req, res, next) => {
     }
   });
 });
-
+ */
 router.delete('/delete/:id', (req, res, next) => {
   db.query('DELETE FROM products WHERE id = ?', [req.params.id], (err, results) => {
     if (!err){

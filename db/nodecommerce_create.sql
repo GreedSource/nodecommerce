@@ -1,46 +1,53 @@
 -- Created by Vertabelo (http://vertabelo.com)
 -- Last modification date: 2020-07-19 01:46:07.255
 
+CREATE DATABASE nodecommerce;
+
+USE nodecommerce;
+
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2020-07-19 02:11:22.981
+
 -- tables
 -- Table: order_details
 CREATE TABLE order_details (
-    id int NOT NULL AUTO_INCREMENT,
-    orders_id int NOT NULL,
-    product_id int NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    orders_id INT NOT NULL,
+    product_id INT NOT NULL,
     CONSTRAINT order_details_pk PRIMARY KEY (id)
 );
 
 -- Table: orders
 CREATE TABLE orders (
-    id int NOT NULL AUTO_INCREMENT,
-    date timestamp NOT NULL,
-    users_id int NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    DATE TIMESTAMP NOT NULL,
+    users_id INT NOT NULL,
     CONSTRAINT orders_pk PRIMARY KEY (id)
 );
 
 -- Table: products
 CREATE TABLE products (
-    id int NOT NULL AUTO_INCREMENT,
-    title varchar(50) NOT NULL,
-    description varchar(1000) NOT NULL,
-    price decimal(13,2) NOT NULL,
-    stock int NOT NULL DEFAULT 1,
-    thumbnail text NOT NULL,
-    author varchar(100) NOT NULL,
-    technology varchar(500) NOT NULL,
-    filename text NOT NULL,
-    active tinyint NOT NULL DEFAULT 1,
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(50) NOT NULL,
+    description VARCHAR(1000) NOT NULL,
+    price DECIMAL(13,2) NOT NULL,
+    stock INT NOT NULL DEFAULT 1,
+    thumbnail TEXT NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    technology VARCHAR(500) NOT NULL,
+    filename TEXT NOT NULL,
+    active TINYINT NOT NULL DEFAULT 1,
     CONSTRAINT products_pk PRIMARY KEY (id)
 );
 
 -- Table: users
 CREATE TABLE users (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
-    lastname varchar(50) NOT NULL,
-    email varchar(150) NOT NULL,
-    password varchar(150) NOT NULL,
-    active tinyint NOT NULL DEFAULT 1 AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    PASSWORD VARCHAR(150) NOT NULL,
+    active TINYINT NOT NULL DEFAULT 1,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
@@ -58,4 +65,5 @@ ALTER TABLE orders ADD CONSTRAINT orders_users FOREIGN KEY orders_users (users_i
     REFERENCES users (id);
 
 -- End of file.
+
 
