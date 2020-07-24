@@ -77,6 +77,10 @@ router.post('/add', (req, res, next) => {
   }
 });
 
+router.get('/edit', (req, res, next) => {
+  res.redirect('/products');
+})
+
 router.post('/edit', (req, res, next) => {
   if (req.session.user){
     db.query('SELECT * FROM products WHERE id = ?', [req.body.key], (err, results) => {
