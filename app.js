@@ -7,8 +7,9 @@ var session         = require('express-session');
 
 var indexRouter     = require('./routes/index');
 var usersRouter     = require('./routes/users');
-var loginRouter     = require('./routes/login');
+var securityRouter     = require('./routes/security');
 var productsRouter  = require('./routes/products');
+
 var bodyParser      = require('body-parser'); 
 
 
@@ -36,7 +37,7 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/login', loginRouter);
+app.use('/login', securityRouter);
 app.use('/products', productsRouter);
 
 // catch 404 and forward to error handler

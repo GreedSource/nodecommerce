@@ -3,6 +3,7 @@
     <div class="card-header">
         <i class="fas fa-table mr-1"></i>
         Añadir de producto
+        <a class="btn btn-primary float-right" href="/products"><i class="fas fa-arrow-circle-left"></i> Regresar</a>
     </div>
     <div class="card-body">
         <form id="form" onsubmit="dataEntry(event, this)" enctype="multipart/form-data">
@@ -17,10 +18,6 @@
             <div class="form-group">
                 <label for="price">Precio</label>
                 <input type="text" class="form-control" id="price" name="price" placeholder="Ingresa el precio">
-            </div>
-            <div class="form-group">
-                <label for="stock">Cantidad</label>
-                <input type="text" class="form-control" id="stock" name="stock" placeholder="Ingresa la cantidad disponible">
             </div>
             <div class="form-group">
                 <label for="author">Autor</label>

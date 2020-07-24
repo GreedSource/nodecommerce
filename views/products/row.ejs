@@ -1,0 +1,12 @@
+<tr>                        
+    <td><%= product.id %></td>
+    <td><%= product.title %></td>
+    <td><%= product.description %></td>
+    <td><%= product.price %></td>
+    <td><img src="/storage/<%= product.thumbnail %>" alt="Loading..." height="100px" width="100px"></td>
+    <td>
+        <button class="btn btn-success" onclick="redirect('<%= product.id %>')"><i class="far fa-edit"></i></button>
+        <button class="btn btn-warning" onclick="pdfPreview('<%= product.filename %>')"><i class="far fa-eye"></i></button>
+        <button class="btn btn-danger" onclick="confirm('<%= product.id %>')"><i class="delete"></i></button>
+    </td>
+</tr>

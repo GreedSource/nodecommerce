@@ -5,8 +5,7 @@ var path    = require('path');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  req.session.cuenta = req.session.cuenta ? req.session.cuenta + 1 : 1;
-  res.render('index', { title: `Express ${req.session.cuenta}` });
+  res.render('index', { title: `Express` });
 });
 
 module.exports = router;

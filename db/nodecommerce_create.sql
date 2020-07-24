@@ -20,7 +20,7 @@ CREATE TABLE order_details (
 -- Table: orders
 CREATE TABLE orders (
     id INT NOT NULL AUTO_INCREMENT,
-    DATE TIMESTAMP NOT NULL,
+    date TIMESTAMP NOT NULL,
     users_id INT NOT NULL,
     CONSTRAINT orders_pk PRIMARY KEY (id)
 );
@@ -31,7 +31,6 @@ CREATE TABLE products (
     title VARCHAR(50) NOT NULL,
     description VARCHAR(1000) NOT NULL,
     price DECIMAL(13,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 1,
     thumbnail TEXT NOT NULL,
     author VARCHAR(100) NOT NULL,
     technology VARCHAR(500) NOT NULL,
@@ -43,10 +42,10 @@ CREATE TABLE products (
 -- Table: users
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
-    NAME VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     email VARCHAR(150) NOT NULL,
-    PASSWORD VARCHAR(150) NOT NULL,
+    password VARCHAR(150) NOT NULL,
     active TINYINT NOT NULL DEFAULT 1,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
@@ -65,5 +64,15 @@ ALTER TABLE orders ADD CONSTRAINT orders_users FOREIGN KEY orders_users (users_i
     REFERENCES users (id);
 
 -- End of file.
+
+CREATE TABLE comments(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    content VARCHAR (500) NOT NULL,
+    users_id INT NOT NULL,
+    products_id INT NOT NULL,
+    FOREIGN KEY (users_id) REFERENCES users(id),
+    FOREIGN KEY (products_id) REFERENCES products(id)
+);
+
 
 
