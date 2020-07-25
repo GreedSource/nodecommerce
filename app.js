@@ -7,7 +7,7 @@ var session         = require('cookie-session');
 
 var indexRouter     = require('./routes/index');
 var usersRouter     = require('./routes/users');
-var securityRouter     = require('./routes/security');
+var securityRouter  = require('./routes/security');
 var productsRouter  = require('./routes/products');
 
 var bodyParser      = require('body-parser'); 
