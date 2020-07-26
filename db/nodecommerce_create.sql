@@ -47,6 +47,7 @@ CREATE TABLE users (
     email VARCHAR(150) NOT NULL,
     password VARCHAR(150) NOT NULL,
     active TINYINT NOT NULL DEFAULT 1,
+    admin TINYINT NOT NULL DEFAULT 1,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 

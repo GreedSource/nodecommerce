@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+      <div class="single-product">
+        <div class="product-img" style="width:268px; height: 321px;">
+          <img class="img-fluid w-100 h-100" src="/storage/<%= product.thumbnail %>" alt="" />
+          <div class="p_icon">
+            <a href="/details/<%= product.id %>">
+              <i class="ti-eye"></i>
+            </a>
+            <a href="#" onclick="addCart('<%= product.id %>')">
+              <i class="ti-shopping-cart"></i>
+            </a>
+          </div>
+        </div>
+        <div class="product-btm" style="width:268px;">
+          <a href="#" class="d-block">
+            <h4><%= product.title %> </h4>
+          </a>
+          <div class="mt-3">
+            <span class="mr-4">$<%= product.price.toFixed(2) %> </span>
+          </div>
+        </div>
+      </div>
+    </div>

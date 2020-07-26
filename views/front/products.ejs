@@ -1,0 +1,81 @@
+<% include ../layouts/_header.ejs %>
+
+<br>
+<br>
+
+<!--================ Feature Product Area =================-->
+<section class="feature_product_area section_gap_bottom_custom">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <div class="main_title">
+            <h2><span>Catalogo de productos</span></h2>
+            <p>Descubre nuestra gran variedad de productos</p>
+          </div>
+        </div>
+      </div>
+      
+      <% products.forEach(product => { %>
+        <%- include('../front/features', {product: product}); %>
+      <% }) %>
+        
+      </div>
+    </div>
+  </section>
+  <!--================ End Feature Product Area =================-->
+
+
+  <!-- Start feature Area -->
+  <section class="feature-area section_gap_bottom_custom">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="single-feature">
+            <a href="#" class="title">
+              <i class="flaticon-money"></i>
+              <h3>Garantia de devolución</h3>
+            </a>
+            <p>En todas tus compras</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="single-feature">
+            <a href="#" class="title">
+              <i class="flaticon-truck"></i>
+              <h3>Envio inmediato</h3>
+            </a>
+            <p>En todas tus compras</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="single-feature">
+            <a href="#" class="title">
+              <i class="flaticon-support"></i>
+              <h3>Soporte técnico</h3>
+            </a>
+            <p>En todas tus compras</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="single-feature">
+            <a href="#" class="title">
+              <i class="flaticon-blockchain"></i>
+              <h3>Pago seguro</h3>
+            </a>
+            <p>En todas tus compras</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End feature Area -->
+
+  
+  <!--================ End Offer Area =================-->
+<br>
+ 
+
+  <% include ../layouts/_footer.ejs %>

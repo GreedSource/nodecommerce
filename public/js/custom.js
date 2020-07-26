@@ -193,3 +193,63 @@ var registroUsuario = (e, form) => {
         });
     }
 }
+
+var addComment = (e, form) => {
+    e.preventDefault();
+    var formData = new FormData(form);
+    $.ajax({
+        url: '/comments',
+        type: 'post',
+        data: formData,
+        async: false,
+        success: (data) => {
+            if (data){
+                swal({
+                    icon: 'success',
+                    title: 'Exito!',
+                    text: 'El comentario ha sido agregado'
+                }).then(() => {
+                    location.reload();
+                })
+            }else{
+                swal({
+                    title: 'Error!',
+                    text: 'Algo ha salido mal!',
+                    icon: 'error',
+                });
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    })
+}
+
+var addCart = (key) => {
+    var formData = new FormData();
+    formData.append('key', key);
+    $.ajax({
+        url: '/cart',
+        type: 'post',
+        data: formData,
+        async: false,
+        success: (data) => {
+            if (data){
+                swal({
+                    icon: 'success',
+                    title: 'Exito!',
+                    text: 'Se ha agregado el producto al carrito'
+                })
+            }else{
+                swal({
+                    title: 'Error!',
+                    text: 'El producto se encuentra en el carrito!',
+                    icon: 'error',
+                });
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    })
+}

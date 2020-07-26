@@ -2,9 +2,8 @@ var express = require('express');
 var router  = express.Router();
 var db      = require('../models/connection');
 var path    = require('path');
-var multer      = require('multer');
-const { exists } = require('fs');
-var upload = multer({ dest: 'uploads/' });
+var multer  = require('multer');
+var upload  = multer({ dest: 'uploads/' });
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('security/index', { title: `Login` });
@@ -60,5 +59,10 @@ router.post('/registro', upload.single('avatar'), (req, res, next) => {
     }
   })
 });
+
+router.get('/logout', (req, res, next) => {
+  req.session.user = null;
+  res.redirect('/');
+})
 
 module.exports = router;

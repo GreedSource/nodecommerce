@@ -31,8 +31,9 @@ const upload = multer({
 /* GET home page. */
 router.get('/', (req, res, next) => {
     if (req.session.user){
+      var username = `${req.session.user.name} ${req.session.user.lastname}`;
       db.query('SELECT * FROM products WHERE active = 1', (err, results) => {
-        res.render('products/index', { title : 'Productos', products:results });
+        res.render('products/index', { title : 'Productos', products:results, username: username});
       });
     }else{
       res.redirect('/login')
@@ -41,7 +42,8 @@ router.get('/', (req, res, next) => {
 
 router.get('/add', (req, res, next) => {
   if (req.session.user){
-    res.render('products/crud', { title : 'Productos' });
+    var username = `${req.session.user.name} ${req.session.user.lastname}`;
+    res.render('products/crud', { title : 'Productos', username: username });
   }else{
     res.redirect('/login')
   }
@@ -83,11 +85,12 @@ router.get('/edit', (req, res, next) => {
 
 router.post('/edit', (req, res, next) => {
   if (req.session.user){
+    var username = `${req.session.user.name} ${req.session.user.lastname}`;
     db.query('SELECT * FROM products WHERE id = ?', [req.body.key], (err, results) => {
       if(!err){
         console.log();
         if (Object.keys(results).length !== 0){
-          res.render('products/edit', {title : 'Productos', product:results[0], msg : null});
+          res.render('products/edit', {title : 'Productos', product:results[0], msg : null, username: username});
         }else{
           res.redirect('/');
         }
