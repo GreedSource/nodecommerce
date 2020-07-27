@@ -72,11 +72,12 @@ router.get('/courses', (req, res, next) => {
 
 router.get('/cart', (req, res, next) => {
   var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
+  var active = (req.session.user) ? 1 : 0;
   var total = 0;
   req.session.cart.forEach((product) => {
     total += product.price;
   })
-  res.render('front/cart', {title: 'NodeCommerce', inCart: inCart, products: req.session.cart, total: total});
+  res.render('front/cart', {title: 'NodeCommerce', inCart: inCart, products: req.session.cart, total: total, active: active});
 })
 
 router.post('/cart', upload.single('avatar'), (req, res, next) => {
@@ -154,15 +155,24 @@ router.post('/payment', upload.single('avatar'), (req, res, next) => {
 })
 
 router.get('/mis-cursos', (req, res, next) => {
-  sql = 'SELECT DISTINCT p.* FROM order_details AS od INNER JOIN products p ON p.id = od.`product_id` INNER JOIN orders o ON o.id = od.orders_id WHERE o.users_id = ?'
+  if (req.session.user){
+    sql = 'SELECT DISTINCT p.* FROM order_details AS od INNER JOIN products p ON p.id = od.`product_id` INNER JOIN orders o ON o.id = od.orders_id WHERE o.users_id = ?'
+    var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
+    db.query(sql, [req.session.user.id], (err, results) => {
+      if (!err){
+        res.render('front/descargas', {products: results, title: 'NodeCommerce', inCart: inCart})
+      }else{
+        res.send(err)
+      }
+    })
+  }else{
+    res.redirect('/')
+  }
+})
+
+router.get('/contact' , (req, res, next) => {
   var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
-  db.query(sql, [32], (err, results) => {
-    if (!err){
-      res.render('front/descargas', {products: results, title: 'NodeCommerce', inCart: inCart})
-    }else{
-      res.send(err)
-    }
-  })
+  res.render('front/contact', {title: 'NodeCommerce', inCart: inCart})
 })
 
 module.exports = router;

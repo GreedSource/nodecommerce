@@ -1,0 +1,40 @@
+<% include ../layouts/header %>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Listado de ventas
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th>Portada</th>
+                        <th>Copias vendidas</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th>Portada</th>
+                        <th>Copias vendidas</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <% products.forEach((product) => { %>
+                        <%- include('sale', {product: product}); %>
+                    <% }); %> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<% include ../layouts/footer %>

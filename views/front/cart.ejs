@@ -46,7 +46,14 @@
                 <td></td>
                 <td>
                   <div class="checkout_btn_inner">
-                    <div id="paypal-button"></div>
+                    <% if (active == 1) { %>
+                      <div id="paypal-button"></div>
+                    <% }else{ %>
+                      <div>
+                        <h5>Necesitas <a href="/login">Iniciar sesión</a> para continuar</h5>
+                        
+                      </div>
+                    <% } %> 
                   </div>
                 </td>
               </tr>

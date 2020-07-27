@@ -343,7 +343,7 @@ var processOrder = (orderID) => {
                 icon:'success', 
                 text: 'A continuación será redirigido para descargar sus archivos'
             }).then((response) => {
-                
+                location.href = '/mis-cursos';
             })
         },
         cache: false,

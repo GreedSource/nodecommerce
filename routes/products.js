@@ -148,4 +148,21 @@ router.put('/delete', (req, res, next) => {
   }
 });
 
+router.get('/ventas', (req, res, next) => {
+  if (req.session.user){
+    var username = `${req.session.user.name} ${req.session.user.lastname}`;
+    var sql = 'SELECT DISTINCT p.*, COUNT(od.product_id) AS total FROM order_details AS od INNER JOIN products p ON p.id = od.`product_id` INNER JOIN orders o ON o.id = od.orders_id GROUP BY od.`product_id`'
+    db.query(sql, (err, results)=> {
+      if (!err){
+        res.render('products/sales', { title : 'Ventas', username: username, products:results });    
+      }else{
+        res.send(err)
+      }
+    })
+    
+  }else{
+    res.redirect('/login')
+  }
+});
+
 module.exports = router;

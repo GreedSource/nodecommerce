@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-/* 
+
 var db_config = {
     host: 'nodecommerce.mariadb.database.azure.com',
     port:3306,
@@ -8,7 +8,7 @@ var db_config = {
     database:'nodecommerce',
     insecureAuth: true
 };
- */
+/*
 var db_config = {
     host: 'localhost',
     port:3306,
@@ -17,7 +17,7 @@ var db_config = {
     database:'nodecommerce',
     insecureAuth: true
 };
-
+*/
 var connection;
   
 var handleDisconnect = () => {
