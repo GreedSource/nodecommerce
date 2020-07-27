@@ -26,30 +26,14 @@
               <tr>
                 <th scope="col">Producto</th>
                 <th scope="col">Autor</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Eliminar</th>
+                <th scope="col">Tecnología</th>
+                <th scope="col">Descargar</th>
               </tr>
             </thead>
             <tbody>
               <% products.forEach(product => { %>
-               <%- include('cart_item', { product: product })  %> 
+               <%- include('items', { product: product })  %> 
               <% }) %>
-              <tr>
-                  <td></td>
-                  <td></td>
-                  <td><h4>Total</h4></td>
-                  <td><h4>$<%= total %> </h4></td>
-              </tr>
-              <tr class="out_button_area">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                  <div class="checkout_btn_inner">
-                    <div id="paypal-button"></div>
-                  </div>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -59,8 +43,3 @@
   
   <!--================End Cart Area =================-->
   <% include ../layouts/_footer.ejs %>
-  <script>    
-    $(document).ready(() => {
-      pagar('<%- total %>', 'NodeCommerce transaction');
-    })
-  </script>

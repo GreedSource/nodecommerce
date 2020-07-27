@@ -133,14 +133,18 @@ var inicioSesion = (e, form) => {
         success: (data) => {
             //data = JSON.parse(data)
             console.log(data)
-            if (data == true){
+            if (data == 1){
                 this.location.href = '/products';
             }else{
-                swal({
-                    title: 'Error!',
-                    text: 'Algo ha salido mal!',
-                    icon: 'error',
-                });
+                if (data == 0){
+                    this.location.href = '/';
+                }else{
+                    swal({
+                        title: 'Error!',
+                        text: 'Algo ha salido mal!',
+                        icon: 'error',
+                    });
+                }
             }
         },
         cache: false,
@@ -239,6 +243,8 @@ var addCart = (key) => {
                     icon: 'success',
                     title: 'Exito!',
                     text: 'Se ha agregado el producto al carrito'
+                }).then(() => {
+                    location.href = '/cart';
                 })
             }else{
                 swal({
@@ -247,6 +253,98 @@ var addCart = (key) => {
                     icon: 'error',
                 });
             }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    })
+}
+
+var spliceProduct = (key) =>{
+    var formData = new FormData();
+    formData.append('key', key);
+    $.ajax({
+        url: '/cart',
+        type: 'put',
+        data: formData,
+        async: false,
+        success: (data) => {
+            if (data){
+                swal({
+                    icon: 'success',
+                    title: 'Exito!',
+                    text: 'Se ha eliminado el producto del carrito'
+                }).then(() => {
+                    location.reload();
+                })
+            }else{
+                swal({
+                    title: 'Error!',
+                    text: 'Algo ha salido mal!',
+                    icon: 'error',
+                });
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    })
+}
+
+var pagar = (costo, descripcion) => {
+    paypal.Button.render({
+        style: {
+            size: 'responsive'
+        },
+        env: 'sandbox', // Optional: specify 'sandbox' environment
+        client: {
+            sandbox:    'AU_dQSUGznHPKV4BxMWsnsEQ3_HbEmwRQT5NVha28mKRe5VyTy42A-DLjZR2e_Q-RT3pulThunhW7am1'
+        },
+        commit: true, // Optional: show a 'Pay Now' button in the checkout flow
+        payment: (data, actions) => {
+            return actions.payment.create({
+            payment: {
+                transactions: [
+                {
+                    amount: {
+                        total: costo,
+                        currency: 'MXN'
+                    },
+                    description: descripcion,
+                }
+                ]
+            }
+            });
+        },
+        onAuthorize: (data, actions) => {
+            return actions.order.capture().then((details) => {
+                // Show a success message to the buyer
+                alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                processOrder(data.orderID);
+            });
+        },
+        onError: (err) => {
+            console.log(err)
+        }
+    }, '#paypal-button'); 
+}
+
+var processOrder = (orderID) => {
+    var formData = new FormData();
+    formData.append('orderID', orderID);
+    $.ajax({
+        url: '/payment',
+        type: 'POST',
+        async: false,
+        data: formData,
+        success: (data) => {
+            swal({
+                title: 'Pago exitoso',
+                icon:'success', 
+                text: 'A continuación será redirigido para descargar sus archivos'
+            }).then((response) => {
+                
+            })
         },
         cache: false,
         contentType: false,

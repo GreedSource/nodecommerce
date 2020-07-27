@@ -70,6 +70,15 @@ router.get('/courses', (req, res, next) => {
   })
 })
 
+router.get('/cart', (req, res, next) => {
+  var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
+  var total = 0;
+  req.session.cart.forEach((product) => {
+    total += product.price;
+  })
+  res.render('front/cart', {title: 'NodeCommerce', inCart: inCart, products: req.session.cart, total: total});
+})
+
 router.post('/cart', upload.single('avatar'), (req, res, next) => {
   var sql = 'SELECT * FROM products WHERE id = ?';
   var key = req.body.key;
@@ -98,6 +107,60 @@ router.post('/cart', upload.single('avatar'), (req, res, next) => {
       }
     }else{
       res.send(err);
+    }
+  })
+})
+
+router.put('/cart', upload.single('avatar'), (req, res, next) => {
+  var cart = req.session.cart;
+  cart = cart.filter(product => product.id != req.body.key);
+  req.session.cart = cart;
+  res.json(true);
+})
+
+router.post('/payment', upload.single('avatar'), (req, res, next) => {
+  var orderID = req.body.orderID;
+  var sql = 'insert into orders set ?';
+  var order = {
+    date: new Date().toLocaleDateString(),
+    users_id: 32,
+    transaction_id: orderID
+  }
+  db.query(sql, order, (err, results) => {
+    if (!err) {
+      key = results.insertId;
+      sql = 'INSERT INTO order_details set ?';
+      
+      req.session.cart.forEach((product) => {
+        detail = {
+          orders_id: key,
+          product_id: product.id
+        }
+  
+        db.query(sql, detail, (err, results) => {
+          if (!err){
+            console.log(true);
+          }else{
+            console.log(err)
+          }
+        })
+      })
+      req.session.cart = [];
+      res.json(true);
+    }else{
+      res.send(err)
+    }
+  })
+})
+
+router.get('/mis-cursos', (req, res, next) => {
+  sql = 'SELECT DISTINCT p.* FROM order_details AS od INNER JOIN products p ON p.id = od.`product_id` INNER JOIN orders o ON o.id = od.orders_id WHERE o.users_id = ?'
+  var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
+  db.query(sql, [32], (err, results) => {
+    if (!err){
+      res.render('front/descargas', {products: results, title: 'NodeCommerce', inCart: inCart})
+    }else{
+      res.send(err)
     }
   })
 })

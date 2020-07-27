@@ -1,0 +1,25 @@
+<tr>
+    <td>
+      <div class="media">
+        <div class="d-flex">
+          <img
+            src="/storage/<%= product.thumbnail %> " alt=""
+            alt=""
+            height="120" width="120"
+          />
+        </div>
+        <div class="media-body">
+          <p><%= product.title  %> </p>
+        </div>
+      </div>
+    </td>
+    <td>
+      <h5><%= product.author  %> </h5>
+    </td>
+    <td>
+      <h5>$<%= product.technology  %> </h5>
+    </td>
+    <td>
+        <a class="main_btn" href="/storage/<%- product.filename %>" target="_blank">Descargar</a>
+    </td>
+  </tr>

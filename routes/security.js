@@ -17,9 +17,9 @@ router.post('/', upload.single('avatar'), (req, res, next) => {
     if (!err){
       if (results.length !== 0){
         req.session.user = results[0];
-        res.json(true);
+        res.json(results[0].admin);
       }else{
-        res.json(false);
+        res.json(-1);
       }
     }else{
       res.send(err);
