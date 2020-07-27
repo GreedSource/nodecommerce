@@ -319,8 +319,17 @@ var pagar = (costo, descripcion) => {
         onAuthorize: (data, actions) => {
             return actions.order.capture().then((details) => {
                 // Show a success message to the buyer
-                alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                processOrder(data.orderID);
+                //alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                if (data.orderID){
+                    console.log(data.orderID);
+                    processOrder(data.orderID);
+                }else{
+                    swal({
+                        title: 'Error!',
+                        text: 'Algo ha salido mal!',
+                        icon: 'error'
+                    })
+                }
             });
         },
         onError: (err) => {
@@ -338,6 +347,7 @@ var processOrder = (orderID) => {
         async: false,
         data: formData,
         success: (data) => {
+            console.log(data)
             swal({
                 title: 'Pago exitoso',
                 icon:'success', 

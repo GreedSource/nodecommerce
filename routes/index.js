@@ -124,7 +124,7 @@ router.post('/payment', upload.single('avatar'), (req, res, next) => {
   var sql = 'insert into orders set ?';
   var order = {
     date: new Date().toLocaleDateString(),
-    users_id: 32,
+    users_id: req.session.user.id,
     transaction_id: orderID
   }
   db.query(sql, order, (err, results) => {
