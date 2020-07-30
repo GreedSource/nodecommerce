@@ -53,8 +53,8 @@ router.post('/add', (req, res, next) => {
   if (req.session.user){
     upload(req, res, (err) => {
       if (!err){
-        var foto = res.req.files['thumbnail'][0].filename;
-        var filename = res.req.files['filename'][0].filename;
+        var foto      = res.req.files['thumbnail'][0].filename;
+        var filename  = res.req.files['filename'][0].filename;
         var data = {
           title:        req.body.title,
           description:  req.body.description,

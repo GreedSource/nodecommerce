@@ -321,7 +321,7 @@ var pagar = (costo, descripcion) => {
                 // Show a success message to the buyer
                 //alert('Transaction completed by ' + details.payer.name.given_name + '!');
                 if (data.orderID){
-                    console.log(data.orderID);
+                    //console.log(data.orderID);
                     processOrder(data.orderID);
                 }else{
                     swal({

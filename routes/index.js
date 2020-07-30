@@ -123,7 +123,7 @@ router.post('/payment', upload.single('avatar'), (req, res, next) => {
   var orderID = req.body.orderID;
   var sql = 'insert into orders set ?';
   var order = {
-    date: new Date().toLocaleDateString(),
+    date: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
     users_id: req.session.user.id,
     transaction_id: orderID
   }
