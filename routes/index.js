@@ -9,7 +9,7 @@ var upload  = multer({ dest: 'uploads/' });
 router.get('/', function(req, res, next) {
   req.session.cart = (req.session.cart) ? req.session.cart : [];
   var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
-  var sql = 'SELECT p.id, p.title, p.thumbnail, p.price FROM order_details d INNER JOIN products p ON d.product_id = p.id GROUP BY d.product_id ORDER BY COUNT(*) DESC LIMIT 3';
+  var sql = 'SELECT p.id, p.title, p.thumbnail, p.price FROM order_details d INNER JOIN products p ON d.product_id = p.id WHERE p.active = 1 GROUP BY d.product_id ORDER BY COUNT(*) DESC LIMIT 3';
   db.query(sql, (err, results) => {
     results = (Object.keys(results).length === 0) ? [] : results;
     res.render('index', { title: `NodeCommerce`, products: results, inCart: inCart });
@@ -59,12 +59,13 @@ router.post('/comments', upload.single('avatar'), (req, res, next) => {
 })
 
 router.get('/courses', (req, res, next) => {
-  sql = 'SELECT * FROM products where activo = 1';
+  sql = 'SELECT * FROM products where active = 1';
   var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
   db.query(sql, (err, results) => {
     if (!err) {
       res.render('front/products', {title : 'NodeCommerce', products: results, inCart: inCart});
     }else{
+      console.log(err);
       res.redirect('/');
     }
   })
