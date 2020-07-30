@@ -59,7 +59,7 @@ router.post('/comments', upload.single('avatar'), (req, res, next) => {
 })
 
 router.get('/courses', (req, res, next) => {
-  sql = 'SELECT * FROM products';
+  sql = 'SELECT * FROM products where activo = 1';
   var inCart = (req.session.cart) ? Object.keys(req.session.cart).length : 0;
   db.query(sql, (err, results) => {
     if (!err) {
